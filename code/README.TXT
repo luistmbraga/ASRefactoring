@@ -1,0 +1,1 @@
+Instalar o mySql server v5+ e mudar o utilizador e palavra passe na classe SQLConnection.
