@@ -16,6 +16,10 @@ public class ViewRegistar extends ConsoleView {
         System.out.print("Password: ");
         String password = scanner.next();
         Utilizador util = trading.regist(username, password);
+        nextMenu(util);
+    }
+
+    private void nextMenu(Utilizador util) {
         if(util != null){
             utilizador.deconstruct(util);
             mediator.changeView(UTILIZADOR);

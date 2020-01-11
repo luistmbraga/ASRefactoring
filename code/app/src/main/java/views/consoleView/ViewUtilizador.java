@@ -10,16 +10,10 @@ public class ViewUtilizador extends ConsoleView {
 
     @Override
     public void render() {
-        layout("Olá " + utilizador.getUsername() + " - " + utilizador.getMoney() + "$");
-        System.out.println("1.Comprar CFD");
-        System.out.println("2.Ver portfolio");
-        System.out.println("3.Ver transições antigas");
-        System.out.println("4.Ver favoritos");
-        System.out.println("5.Depositar dinheiro");
-        System.out.println("6.Levantar dinheiro");
-        System.out.println("7.Sair");
+        apresentaMenu();
 
         int option = getSelectedOption();
+
         switch (option){
             case 1:
                 mediator.changeView(ATIVOS_DISPONIVEIS);
@@ -47,5 +41,16 @@ public class ViewUtilizador extends ConsoleView {
                 System.out.println("ERROR: Não é uma opção válida");
                 render();
         }
+    }
+
+    private void apresentaMenu() {
+        layout("Olá " + utilizador.getUsername() + " - " + utilizador.getMoney() + "$");
+        System.out.println("1.Comprar CFD");
+        System.out.println("2.Ver portfolio");
+        System.out.println("3.Ver transições antigas");
+        System.out.println("4.Ver favoritos");
+        System.out.println("5.Depositar dinheiro");
+        System.out.println("6.Levantar dinheiro");
+        System.out.println("7.Sair");
     }
 }

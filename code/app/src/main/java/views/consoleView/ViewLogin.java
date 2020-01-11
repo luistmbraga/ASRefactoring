@@ -16,6 +16,10 @@ public class ViewLogin extends ConsoleView {
         System.out.print("Password: ");
         String password = scanner.next();
         Utilizador user = trading.login(username, password);
+        nextMenu(user);
+    }
+
+    private void nextMenu(Utilizador user) {
         if(user != null){
             utilizador.deconstruct(user);
             mediator.changeView(UTILIZADOR);

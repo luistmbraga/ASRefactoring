@@ -2,7 +2,6 @@ package views.consoleView;
 
 import business.EESTrading;
 import business.Utilizador;
-import views.IView;
 
 public class ViewInicial extends ConsoleView {
 
@@ -12,10 +11,7 @@ public class ViewInicial extends ConsoleView {
 
     @Override
     public void render() {
-        layout("Menu Inicial");
-        System.out.println("1.Login");
-        System.out.println("2.Registar");
-        System.out.println("3.Sair");
+        apresentaMenu();
 
         int option = getSelectedOption();
         switch (option){
@@ -29,5 +25,12 @@ public class ViewInicial extends ConsoleView {
             default: System.out.println("Não é uma opção válida: " + option);
         }
         mediator.changeView(INICIAL);
+    }
+
+    private void apresentaMenu() {
+        layout("Menu Inicial");
+        System.out.println("1.Login");
+        System.out.println("2.Registar");
+        System.out.println("3.Sair");
     }
 }

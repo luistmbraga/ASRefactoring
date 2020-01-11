@@ -30,6 +30,36 @@ public class ViewTransacoesAntigas extends ConsoleView {
             total += cfd.getSoldValue();
             profit += cfd.getProfit();
         }
+        initPage(total, profit);
+
+        waitForValidOption();
+        mediator.changeView(UTILIZADOR);
+    }
+
+    private void waitForValidOption() {
+        boolean optionSelected = false;
+        while (!optionSelected){
+            optionSelected = isOptionSelected(optionSelected);
+        }
+    }
+
+    private boolean isOptionSelected(boolean optionSelected) {
+        String input = scanner.nextLine();
+        if(input.matches("[ ]*:[ ]*page[ ]+[0-9]+[ ]*")){
+            Pattern pattern = Pattern.compile("[ ]*:[ ]*page[ ]+([0-9]+)[ ]*");
+            Matcher matcher = pattern.matcher(input);
+            if(matcher.find()) {
+                int pageNumber = Integer.parseInt(matcher.group(1));
+                printPage(pageNumber, this.cfds);
+            }
+        }
+        else {
+            optionSelected = true;
+        }
+        return optionSelected;
+    }
+
+    private void initPage(double total, double profit) {
         NumberFormat formatter = new DecimalFormat("#0.00");
 
         printPage(0, this.cfds);
@@ -37,22 +67,5 @@ public class ViewTransacoesAntigas extends ConsoleView {
         System.out.println();
         printMessage("Total vendido : " + formatter.format(total));
         printMessage("Lucro total: " + formatter.format(profit));
-
-        boolean optionSelected = false;
-        while (!optionSelected){
-            String input = scanner.nextLine();
-                if(input.matches("[ ]*:[ ]*page[ ]+[0-9]+[ ]*")){
-                    Pattern pattern = Pattern.compile("[ ]*:[ ]*page[ ]+([0-9]+)[ ]*");
-                    Matcher matcher = pattern.matcher(input);
-                    if(matcher.find()) {
-                        int pageNumber = Integer.parseInt(matcher.group(1));
-                        printPage(pageNumber, this.cfds);
-                    }
-                 }
-                else {
-                    optionSelected = true;
-                }
-        }
-        mediator.changeView(UTILIZADOR);
     }
 }

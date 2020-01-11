@@ -19,12 +19,7 @@ public class ViewAtivosDisponiveis extends ConsoleView {
 
     @Override
     public void render() {
-        layout("Ativos Financeiros");
-        System.out.println("0.Retroceder");
-        System.out.println("1.Ver tudo (crypto moedas e ações)");
-        System.out.println("2.Ver ações");
-        System.out.println("3.Ver crypto moedas");
-        System.out.println("4.Filtrar");
+        apresentaMenu();
 
         int option = getSelectedOption();
         switch (option){
@@ -53,6 +48,15 @@ public class ViewAtivosDisponiveis extends ConsoleView {
 
         }
         subViewVerAtivos();
+    }
+
+    private void apresentaMenu() {
+        layout("Ativos Financeiros");
+        System.out.println("0.Retroceder");
+        System.out.println("1.Ver tudo (crypto moedas e ações)");
+        System.out.println("2.Ver ações");
+        System.out.println("3.Ver crypto moedas");
+        System.out.println("4.Filtrar");
     }
 
     private String subMenuFiltrar(){

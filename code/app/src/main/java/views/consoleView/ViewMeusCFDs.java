@@ -22,14 +22,42 @@ public class ViewMeusCFDs extends ConsoleView {
         System.out.println("0.Retroceder");
         printPage(0, cfds);
 
+        if (apresentaContratosAtualizados()) return;
+        int option = getOption();
+        nextMenu(option);
+    }
+
+
+
+    private void nextMenu(int option) {
+        if(isaCFDOption(option)){
+            mediator.changeView(CFD_POSSUIDO, cfds.get(option - 1));
+        }else if(option == 0){
+            mediator.changeView(UTILIZADOR);
+        }
+        else {
+            System.out.println("Não existe esse CFD");
+            mediator.changeView(MEUS_CFDS);
+        }
+    }
+
+    private boolean isaCFDOption(int option) {
+        return option > 0 && option <= cfds.size();
+    }
+
+    private boolean apresentaContratosAtualizados() {
         if(isUpdated()){
             boolean yes = yesOrNoQuestion("Alguns dos seus contratos foram atualizados\nQuer dar refresh?");
             if(yes){
                 mediator.changeView(MEUS_CFDS);
-                return ;
+                return true;
             }
         }
+        return false;
+    }
 
+
+    private int getOption() {
         int option = 0;
         boolean optionSelected = false;
         while (!optionSelected){
@@ -47,15 +75,6 @@ public class ViewMeusCFDs extends ConsoleView {
                 }
             }
         }
-
-        if(option > 0 && option <= cfds.size()){
-            mediator.changeView(CFD_POSSUIDO, cfds.get(option-1));
-        }else if(option == 0){
-            mediator.changeView(UTILIZADOR);
-        }
-        else {
-            System.out.println("Não existe esse CFD");
-            mediator.changeView(MEUS_CFDS);
-        }
+        return option;
     }
 }

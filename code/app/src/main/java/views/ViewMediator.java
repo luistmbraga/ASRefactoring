@@ -1,11 +1,9 @@
 package views;
 
 import business.EESTrading;
-import business.Utilizador;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Stack;
 
 public abstract class ViewMediator implements Observer {
     protected String currentView;

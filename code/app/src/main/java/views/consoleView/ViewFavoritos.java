@@ -1,6 +1,5 @@
 package views.consoleView;
 
-import business.AtivoFinanceiro;
 import business.AtivoFinanceiroFavorito;
 import business.EESTrading;
 import business.Utilizador;
