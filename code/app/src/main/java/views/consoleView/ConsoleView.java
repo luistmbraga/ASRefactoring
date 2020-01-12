@@ -1,7 +1,5 @@
 package views.consoleView;
 
-import business.CFD;
-import business.CFDVendido;
 import business.EESTrading;
 import business.Utilizador;
 import views.IView;
