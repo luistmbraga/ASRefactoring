@@ -33,13 +33,9 @@ public abstract class AtivoFinanceiro {
 		return value;
 	}
 
-	public void setValue(double value) {
-		this.value = value;
-	}
+	public void setValue(double value) {		this.value = value;	}
 
-	public String getType() {
-		return type;
-	}
+	public String getType() {		return type;	}
 
 	@Override
 	public boolean equals(Object obj) {

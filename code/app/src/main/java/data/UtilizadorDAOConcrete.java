@@ -182,20 +182,4 @@ public class UtilizadorDAOConcrete implements UtilizadorDAO {
         }
     }
 
-    public static void main(String[] args) {
-        UtilizadorDAOConcrete uc = new UtilizadorDAOConcrete();
-        AtivoFincanceiroDAOConcrete ac = new AtivoFincanceiroDAOConcrete();
-        Petroleo p = new Petroleo("pet",20.0);
-        Utilizador u = new Utilizador("fabio","111",10000.0);
-        u.addFavorito(p, 10);
-
-        ac.put(p);
-
-        uc.put(u);
-
-        Utilizador utilizador = uc.get("fabio");
-        System.out.println(utilizador);
-
-    }
-
 }

@@ -2,7 +2,6 @@ package data;
 
 import business.AtivoFinanceiro;
 import business.CFD;
-import business.Petroleo;
 
 import java.sql.*;
 
@@ -86,7 +85,7 @@ public class AtivoFincanceiroDAOConcrete implements AtivoFinanceiroDAO {
     public List<AtivoFinanceiro> getAll(){
         List<AtivoFinanceiro> ativos = new ArrayList<>();
         
-        AtivoFinanceiro a = null;
+        AtivoFinanceiro a ;
         try{
             this.Conn.connect();
             ResultSet rs = this.Conn.executeQuery("select * from AtivoFinanceiro");
@@ -122,16 +121,6 @@ public class AtivoFincanceiroDAOConcrete implements AtivoFinanceiroDAO {
             Conn.disconnect();
         }
         return cfds;
-    }
-
-    //teste
-    public static void main(String[] args) {
-        AtivoFincanceiroDAOConcrete a = new AtivoFincanceiroDAOConcrete();
-
-        AtivoFinanceiro af = new Petroleo("Petroleo",11);
-        List<AtivoFinanceiro> ativos = new ArrayList<>();
-
-        a.getAll();
     }
 
 
