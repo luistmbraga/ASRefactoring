@@ -11,7 +11,7 @@ public class ConsoleViewMediator extends ViewMediator {
         super(trading, view);
     }
 
-    private volatile Utilizador utilizador = new Utilizador("", "", 0);
+    private Utilizador utilizador = new Utilizador("", "", 0);
     private ConsoleView lastiView;
 
     private CFD lastCFD;

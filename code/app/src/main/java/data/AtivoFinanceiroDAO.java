@@ -9,4 +9,5 @@ public interface AtivoFinanceiroDAO extends DAO<String,AtivoFinanceiro> {
 
 	List<AtivoFinanceiro> getAll();
 	List<CFD> getCFDs(AtivoFinanceiro ativoFinanceiro);
+
 }

@@ -110,18 +110,19 @@ public class UtilizadorDAOConcrete implements UtilizadorDAO {
         AtivoFinanceiro a;
         try{
             this.Conn.connect();
-
             ResultSet rs = this.Conn.executeQuery("select * from Utilizador where Nome='"+id+"'");
             if (rs.next()) {
                 u = new Utilizador(rs.getString("Nome"), rs.getString("Password"), rs.getDouble("Saldo"));
 
-            }
-
-            ResultSet rs1 = this.Conn.executeQuery("select * from AtivosPreferidos inner join AtivoFinanceiro on AtivosPreferidos.AtivoFinanceiro=AtivoFinanceiro.Nome where Utilizador='"+u.getUsername()+"'");
-            while(rs1.next()){
-                double value = rs1.getDouble("Valor");
-                a = new AtivoFinanceiro(rs1.getString("Nome"),rs1.getDouble("ValorUnit"),rs1.getString("Type")) {};
-                u.addFavorito(a, value);
+                ResultSet rs1 = this.Conn.executeQuery("select * from AtivosPreferidos inner join AtivoFinanceiro " +
+                        "on AtivosPreferidos.AtivoFinanceiro=AtivoFinanceiro.Nome " +
+                        "where Utilizador='" + u.getUsername() + "'");
+                while (rs1.next()) {
+                    double value = rs1.getDouble("Valor");
+                    a = new AtivoFinanceiro(rs1.getString("Nome"), rs1.getDouble("ValorUnit"), rs1.getString("Type")) {
+                    };
+                    u.addFavorito(a, value);
+                }
             }
         }
         catch (Exception e) {

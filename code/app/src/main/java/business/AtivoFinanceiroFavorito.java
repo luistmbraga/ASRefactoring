@@ -23,6 +23,9 @@ public class AtivoFinanceiroFavorito extends AtivoFinanceiro {
     }
 
     @Override
+    public int hashCode(){return 0;}
+
+    @Override
     public String toString(){
         return super.toString() + " Threshold: " + getValueToNotify();
     }
