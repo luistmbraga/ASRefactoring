@@ -54,17 +54,16 @@ public class EESTrading extends Observable {
 		notifyObservers(ativoFinanceiros);
 	}
 
-	public synchronized void applyThresholds(CFD cfd){
-		if(cfd.checkTopprofit()) {
-			CFDVendido cfdVendido = new CFDVendido(cfd, cfd.getTopProfit());
+	public synchronized void applyThresholds(CFD cfd) {
+
+		if (cfd.checkTopprofit() || cfd.checkStopLoss()) {
+
+			double soldValue = cfd.checkTopprofit() ? cfd.getTopProfit() : cfd.getStopLoss();
+
+			CFDVendido cfdVendido = new CFDVendido(cfd, soldValue);
+
 			cfdDAO.sell(cfdVendido);
-			deposit(cfd.getUtilizador(), cfd.getTopProfit());
-			setChanged();
-			notifyObservers(cfdVendido);
-		} else if(cfd.checkStopLoss()) {
-			CFDVendido cfdVendido = new CFDVendido(cfd, cfd.getStopLoss());
-			cfdDAO.sell(cfdVendido);
-			deposit(cfd.getUtilizador(), cfd.getStopLoss());
+			deposit(cfd.getUtilizador(), soldValue);
 			setChanged();
 			notifyObservers(cfdVendido);
 		}

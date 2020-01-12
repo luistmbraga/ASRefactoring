@@ -1,17 +1,12 @@
 package data;
 
-import business.AtivoFinanceiro;
 
 import java.sql.*;
-import java.util.function.Consumer;
+
 
 public class SQLConnection implements DBConnection{
 
 	private Connection conn;
-
-	public java.sql.Connection getConn() {
-		return conn;
-	}
 
 	public SQLConnection(){
 		try{
@@ -23,7 +18,7 @@ public class SQLConnection implements DBConnection{
 
 	public void connect() {
 		try{
-			this.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tradingplatform?useTimezone=true&serverTimezone=UTC","root","1234");
+			this.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tradingplatform?useTimezone=true&serverTimezone=UTC","root","admin");
 		}
 		catch (SQLException e){
 			e.printStackTrace(); System.out.println("Não conseguiu conectar!");}
@@ -35,4 +30,29 @@ public class SQLConnection implements DBConnection{
 		}
 		catch(SQLException e){e.printStackTrace();}
 	}
+
+	public Integer executeUpdate(String update) {
+		Integer r = 0;
+		try {
+			r = this.conn.createStatement().executeUpdate(update);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return r;
+	}
+
+	public ResultSet executeQuery(String query) {
+		ResultSet rs = null;
+
+		try {
+			rs = this.conn.createStatement().executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return rs;
+	}
+
+
 }

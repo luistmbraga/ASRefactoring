@@ -112,9 +112,6 @@ public abstract class JSONAtivoFinanceiroScrapper implements AtivoFinanceiroScra
             if(ativosFinanceiros.get(ativoFinanceiro.getCompany()).getValue() != ativoFinanceiro.getValue()){
                 numberOfStocksChanges++;
                 changed.add(ativoFinanceiro);
-                //System.out.println(ativoFinanceiro.getCompany() + ": oldValue -> " +
-                //		ativosFinanceiros.get(ativoFinanceiro.getCompany()).getValue() + " newValue -> " +
-                //		ativoFinanceiro.getValue());
             }
             ativosFinanceiros.replace(ativoFinanceiro.getCompany(), ativoFinanceiro);
         }

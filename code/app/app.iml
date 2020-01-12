@@ -10,5 +10,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="json-20190722" level="project" />
+    <orderEntry type="library" name="jsoup-1.12.1" level="project" />
+    <orderEntry type="library" name="mysql-connector-java-8.0.18" level="project" />
   </component>
 </module>

@@ -1,8 +1,6 @@
 package data;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.function.Consumer;
 
 public interface DBConnection {
 
@@ -10,5 +8,7 @@ public interface DBConnection {
 
 	void disconnect();
 
-	Connection getConn();
+	public Integer executeUpdate(String update);
+
+	public ResultSet executeQuery(String query);
 }

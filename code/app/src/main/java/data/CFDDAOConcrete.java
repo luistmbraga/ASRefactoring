@@ -7,10 +7,8 @@ import business.Utilizador;
 
 import java.sql.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedList;
+
 import java.util.List;
 
 public class CFDDAOConcrete implements CFDDAO {
@@ -19,28 +17,14 @@ public class CFDDAOConcrete implements CFDDAO {
     
     @Override
     public double sell(CFDVendido cfd) {
-        UtilizadorDAOConcrete uDAO = new UtilizadorDAOConcrete();
-        Utilizador u;
         double value=0;
-        try{
-            SQLConn.connect();
-            Connection conn = SQLConn.getConn();
-            Statement stmt = conn.createStatement();
-            //ResultSet rs = stmt.executeQuery("select * from CFD where Id="+ cfd.getId());
-            stmt.executeUpdate("insert into cfdvendido (Id, DataVenda, ValorVenda) values ("+ cfd.getId() + ", NOW() ," + cfd.getSoldValue() + ")");
-           /* if(rs.next()){
-                u = uDAO.get(rs.getString("Utilizador_Nome"));
-                value = rs.getDouble("ValorCompra");
-               // uDAO.addMoney(u,value);
-            }*/
-            //delete(cfd.getId());
 
+        this.SQLConn.connect();
 
-        }
-        catch (SQLException e){e.printStackTrace();}
-        finally {
-            SQLConn.disconnect();
-        }
+        this.SQLConn.executeUpdate("insert into cfdvendido (Id, DataVenda, ValorVenda) values ("+ cfd.getId() + ", NOW() ," + cfd.getSoldValue() + ")");
+
+        SQLConn.disconnect();
+
         return value;
     }
 
@@ -59,17 +43,14 @@ public class CFDDAOConcrete implements CFDDAO {
         AtivoFincanceiroDAOConcrete afDAO = new AtivoFincanceiroDAOConcrete();
         AtivoFinanceiro a;
         try{
-            SQLConn.connect();
-            Connection conn = SQLConn.getConn();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from CFD inner join Utilizador on Utilizador.Nome=CFD.Utilizador_Nome where Utilizador.Nome='"+user.getUsername()+"' and not exists (select * from CFDVendido)");
+            this.SQLConn.connect();
+            ResultSet rs = this.SQLConn.executeQuery("select * from CFD inner join Utilizador on Utilizador.Nome=CFD.Utilizador_Nome where Utilizador.Nome='"+user.getUsername()+"' and not exists (select * from CFDVendido)");
             while (rs.next()) {
                 u = uDAO.get(rs.getString("Utilizador_Nome"));
                 a = afDAO.get(rs.getString("AtivoFinanceiro_Nome"));
                 cfd = new CFD(rs.getDouble("ValorCompra"), rs.getDouble("Unidades") ,rs.getDouble("TopProfit"),
                         rs.getDouble("StopLoss"),rs.getInt("Id"),u,a,
                         rs.getTimestamp("DataVenda").toLocalDateTime());
-                //System.out.println("Adicionou CFD com Id:"+cfd.getId());
                 CFDs.add(cfd);
             }
 
@@ -84,23 +65,18 @@ public class CFDDAOConcrete implements CFDDAO {
     @Override
     public Integer put(CFD obj) {
         
-        int i=0;
-        try{
-            SQLConn.connect();
-            Connection conn = SQLConn.getConn();
-            Statement stmt = conn.createStatement();
+        int i;
 
-            stmt.executeUpdate("delete from CFD where Id=" + obj.getId());
-            String cmd = "insert into CFD (Id,ValorCompra,Unidades,TopProfit,StopLoss,Utilizador_Nome,AtivoFinanceiro_Nome) values ("+
-                    obj.getId()+ "," +obj.getBoughtValue()+","+obj.getUnits()+","+obj.getTopProfit()+","+obj.getStopLoss()+",'"+obj.getUtilizador().getUsername()+"','"+ obj.getAtivoFinanceiro().getCompany() + "')";
+        this.SQLConn.connect();
 
-            i=stmt.executeUpdate(cmd);
+        this.SQLConn.executeUpdate("delete from CFD where Id=" + obj.getId());
+        String cmd = "insert into CFD (Id,ValorCompra,Unidades,TopProfit,StopLoss,Utilizador_Nome,AtivoFinanceiro_Nome) values ("+
+                obj.getId()+ "," +obj.getBoughtValue()+","+obj.getUnits()+","+obj.getTopProfit()+","+obj.getStopLoss()+",'"+obj.getUtilizador().getUsername()+"','"+ obj.getAtivoFinanceiro().getCompany() + "')";
 
-        }
-        catch (SQLException e){e.printStackTrace();}
-        finally {
-            SQLConn.disconnect();
-        }
+        i = this.SQLConn.executeUpdate(cmd);
+
+        SQLConn.disconnect();
+
         return i;
     }
 
@@ -113,10 +89,8 @@ public class CFDDAOConcrete implements CFDDAO {
         AtivoFincanceiroDAOConcrete afDAO = new AtivoFincanceiroDAOConcrete();
         AtivoFinanceiro a;
         try{
-            SQLConn.connect();
-            Connection conn = SQLConn.getConn();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from CFD where Id='"+id+"'");
+            this.SQLConn.connect();
+            ResultSet rs = this.SQLConn.executeQuery("select * from CFD where Id='"+id+"'");
             if (rs.next()) {
                 u = uDAO.get(rs.getString("Utilizador_Nome"));
                 a = afDAO.get(rs.getString("AtivoFinanceiro_Nome"));
@@ -141,10 +115,8 @@ public class CFDDAOConcrete implements CFDDAO {
         AtivoFincanceiroDAOConcrete afDAO = new AtivoFincanceiroDAOConcrete();
         AtivoFinanceiro a;
         try{
-            SQLConn.connect();
-            Connection conn = SQLConn.getConn();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from CFDVendido inner join CFD on CFD.Id=CFDVendido.Id inner join Utilizador on Utilizador.Nome=CFD.Utilizador_Nome where Utilizador.Nome='"+u.getUsername()+"'");
+            this.SQLConn.connect();
+            ResultSet rs = this.SQLConn.executeQuery("select * from CFDVendido inner join CFD on CFD.Id=CFDVendido.Id inner join Utilizador on Utilizador.Nome=CFD.Utilizador_Nome where Utilizador.Nome='"+u.getUsername()+"'");
             while (rs.next()) {
                 a = afDAO.get(rs.getString("AtivoFinanceiro_Nome"));
                 cfd = new CFD(rs.getDouble("ValorCompra"), rs.getDouble("Unidades"),
@@ -170,10 +142,8 @@ public class CFDDAOConcrete implements CFDDAO {
         AtivoFincanceiroDAOConcrete afDAO = new AtivoFincanceiroDAOConcrete();
         AtivoFinanceiro a;
         try{
-            SQLConn.connect();
-            Connection conn = SQLConn.getConn();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from CFD inner join Utilizador on Utilizador.Nome = CFD.Utilizador_Nome where Utilizador.Nome='"+u.getUsername()+"' and Id not in (select Id from CFDVendido);");
+            this.SQLConn.connect();
+            ResultSet rs = this.SQLConn.executeQuery("select * from CFD inner join Utilizador on Utilizador.Nome = CFD.Utilizador_Nome where Utilizador.Nome='"+u.getUsername()+"' and Id not in (select Id from CFDVendido);");
             while (rs.next()) {
                 a = afDAO.get(rs.getString("AtivoFinanceiro_Nome"));
                 cfd = new CFD(rs.getDouble("ValorCompra"), rs.getDouble("Unidades"),
@@ -192,19 +162,13 @@ public class CFDDAOConcrete implements CFDDAO {
 
     @Override
     public void delete(Integer id) {
-        
-        try{
-            SQLConn.connect();
-            Connection conn = SQLConn.getConn();
-            Statement stmt = conn.createStatement();
 
-            stmt.executeUpdate("Insert into CFDVendido (Id) values(" + id + ")");
+        this.SQLConn.connect();
 
-        }
-        catch (SQLException e){e.printStackTrace();}
-        finally {
-            SQLConn.disconnect();
-        }
+        this.SQLConn.executeUpdate("Insert into CFDVendido (Id) values(" + id + ")");
+
+        SQLConn.disconnect();
+
     }
 
     @Override
