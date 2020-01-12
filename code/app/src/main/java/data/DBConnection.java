@@ -1,6 +1,7 @@
 package data;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public interface DBConnection {
 
@@ -8,7 +9,7 @@ public interface DBConnection {
 
 	void disconnect();
 
-	public Integer executeUpdate(String update);
+	Integer executeUpdate(String update) throws Exception;
 
-	public ResultSet executeQuery(String query);
+	ResultSet executeQuery(String query) throws  Exception;
 }

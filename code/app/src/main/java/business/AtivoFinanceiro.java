@@ -3,7 +3,6 @@ package business;
 public abstract class AtivoFinanceiro {
 
 	private String company;
-	//private String companyFullName;
 	private double value;
 	private String type;
 
@@ -40,10 +39,6 @@ public abstract class AtivoFinanceiro {
 
 	public String getType() {
 		return type;
-	}
-
-	public double getUpdateValue(double value){
-		return Math.floor(((getValue() - value) / getValue()) * 100) / 100;
 	}
 
 	@Override

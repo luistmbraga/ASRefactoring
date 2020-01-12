@@ -31,27 +31,14 @@ public class SQLConnection implements DBConnection{
 		catch(SQLException e){e.printStackTrace();}
 	}
 
-	public Integer executeUpdate(String update) {
-		Integer r = 0;
-		try {
-			r = this.conn.createStatement().executeUpdate(update);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public Integer executeUpdate(String update) throws SQLException{
 
-		return r;
+		return this.conn.createStatement().executeUpdate(update);
 	}
 
-	public ResultSet executeQuery(String query) {
-		ResultSet rs = null;
+	public ResultSet executeQuery(String query) throws SQLException{
 
-		try {
-			rs = this.conn.createStatement().executeQuery(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return rs;
+		return this.conn.createStatement().executeQuery(query);
 	}
 
 
