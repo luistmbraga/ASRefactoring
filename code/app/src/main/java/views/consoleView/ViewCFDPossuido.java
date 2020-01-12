@@ -33,7 +33,7 @@ public class ViewCFDPossuido extends ConsoleView {
                 System.out.print("Introduza o Stop Loss: ");
                 double valor = getDouble();
                 if(trading.setCFDStopLoss(cfd, valor)){
-                    mediator.changeView( CFD_POSSUIDO);
+                    mediator.changeView(CFD_POSSUIDO);
                     return;
                 }else{
                     System.out.println("O stop loss tem de ser menor que o valor do CFD");

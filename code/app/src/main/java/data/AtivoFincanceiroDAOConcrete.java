@@ -10,22 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AtivoFincanceiroDAOConcrete implements AtivoFinanceiroDAO {
-    DBConnection Conn = new SQLConnection();
+    DBConnection conn = new SQLConnection();
 
     @Override
     public AtivoFinanceiro get(String id) {
         
         AtivoFinanceiro a = null;
         try{
-            this.Conn.connect();
-            ResultSet rs = this.Conn.executeQuery("select * from AtivoFinanceiro where Nome='" + id +"'");
+            this.conn.connect();
+            ResultSet rs = this.conn.executeQuery("select * from AtivoFinanceiro where Nome='" + id +"'");
             if(rs.next()){
                 a = new AtivoFinanceiro(rs.getString("Nome"),rs.getDouble("ValorUnit"),"") {};
             }
         }
         catch (Exception e ){e.printStackTrace();}
         finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
         return a;
     }
@@ -35,14 +35,14 @@ public class AtivoFincanceiroDAOConcrete implements AtivoFinanceiroDAO {
     @Override
     public void delete(String id) {
 
-        this.Conn.connect();
+        this.conn.connect();
 
         try {
-            this.Conn.executeUpdate("delete from AtivoFinanceiro where Nome='" + id +"'");
+            this.conn.executeUpdate("delete from AtivoFinanceiro where Nome='" + id +"'");
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
 
     }
@@ -50,25 +50,25 @@ public class AtivoFincanceiroDAOConcrete implements AtivoFinanceiroDAO {
     @Override
     public String put(AtivoFinanceiro obj) {
         try{
-            this.Conn.connect();
-            ResultSet rs = this.Conn.executeQuery("select * from AtivoFinanceiro where Nome='" + obj.getCompany() +"'");
+            this.conn.connect();
+            ResultSet rs = this.conn.executeQuery("select * from AtivoFinanceiro where Nome='" + obj.getCompany() +"'");
             if(rs.next()){
-                this.Conn.executeUpdate("Update AtivoFinanceiro set ValorUnit=" + obj.getValue()+ ", Type='" + obj.getType()+ "'" +
+                this.conn.executeUpdate("Update AtivoFinanceiro set ValorUnit=" + obj.getValue()+ ", Type='" + obj.getType()+ "'" +
                         " where Nome ='" + obj.getCompany() +"'");
             }
             else {
-                this.Conn.executeUpdate("delete from AtivoFinanceiro where Nome='" + obj.getCompany() + "'");
+                this.conn.executeUpdate("delete from AtivoFinanceiro where Nome='" + obj.getCompany() + "'");
 
                 String cmd = "insert into AtivoFinanceiro (Nome,ValorUnit,Type) values('" + obj.getCompany() + "'," + obj.getValue() + ",'" + obj.getType() + "')";
 
-                this.Conn.executeUpdate(cmd);
+                this.conn.executeUpdate(cmd);
 
             }
         }
         catch (Exception e){
             e.printStackTrace();
         }finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
         return obj.getCompany();
     }
@@ -87,8 +87,8 @@ public class AtivoFincanceiroDAOConcrete implements AtivoFinanceiroDAO {
         
         AtivoFinanceiro a ;
         try{
-            this.Conn.connect();
-            ResultSet rs = this.Conn.executeQuery("select * from AtivoFinanceiro");
+            this.conn.connect();
+            ResultSet rs = this.conn.executeQuery("select * from AtivoFinanceiro");
             while(rs.next()){
                 a = new AtivoFinanceiro(rs.getString("Nome"),rs.getDouble("ValorUnit"),rs.getString("Type")) {};
                 ativos.add(a);
@@ -97,7 +97,7 @@ public class AtivoFincanceiroDAOConcrete implements AtivoFinanceiroDAO {
         }
         catch (Exception e ){e.printStackTrace();}
         finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
         return ativos;
     }
@@ -109,8 +109,8 @@ public class AtivoFincanceiroDAOConcrete implements AtivoFinanceiroDAO {
         CFD cfd;
         CFDDAO cfddao = DAOFactory.getFactory().newCFDDAO();
         try{
-            this.Conn.connect();
-            ResultSet rs = this.Conn.executeQuery("select Id from CFD inner join AtivoFinanceiro on CFD.AtivoFinanceiro_Nome = AtivoFinanceiro.Nome where AtivoFinanceiro.Nome='"+ ativoFinanceiro.getCompany() + "' and Id not in (select Id from CFDVendido);");
+            this.conn.connect();
+            ResultSet rs = this.conn.executeQuery("select Id from CFD inner join AtivoFinanceiro on CFD.AtivoFinanceiro_Nome = AtivoFinanceiro.Nome where AtivoFinanceiro.Nome='"+ ativoFinanceiro.getCompany() + "' and Id not in (select Id from CFDVendido);");
             while(rs.next()){
                 cfd = cfddao.get(rs.getInt("Id"));
                 cfds.add(cfd);
@@ -118,7 +118,7 @@ public class AtivoFincanceiroDAOConcrete implements AtivoFinanceiroDAO {
         }
         catch (Exception e ){e.printStackTrace();}
         finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
         return cfds;
     }

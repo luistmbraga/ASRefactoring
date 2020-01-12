@@ -7,14 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class UtilizadorDAOConcrete implements UtilizadorDAO {
-    private DBConnection Conn = new SQLConnection();
+    private DBConnection conn = new SQLConnection();
 
     @Override
     public boolean login(String username, String password) {
         boolean ret=false;
         try{
-            this.Conn.connect();
-            ResultSet rs = this.Conn.executeQuery("select * from Utilizador where" +
+            this.conn.connect();
+            ResultSet rs = this.conn.executeQuery("select * from Utilizador where" +
                     " Nome='"+username+"' and Password='" + password + "'");
             if(rs.next()){
                 ret=true;
@@ -22,7 +22,7 @@ public class UtilizadorDAOConcrete implements UtilizadorDAO {
         }
         catch (Exception e){e.printStackTrace();}
         finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
 
         return ret;
@@ -31,28 +31,28 @@ public class UtilizadorDAOConcrete implements UtilizadorDAO {
     @Override
     public void addMoney(Utilizador user, double value) {
 
-        this.Conn.connect();
+        this.conn.connect();
 
         try {
-            this.Conn.executeUpdate("Update Utilizador set Saldo =Saldo +" + value + " where Nome='" + user.getUsername() + "'");
+            this.conn.executeUpdate("Update Utilizador set Saldo =Saldo +" + value + " where Nome='" + user.getUsername() + "'");
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
     }
 
     @Override
     public void removeMoney(Utilizador user, double value) {
 
-        this.Conn.connect();
+        this.conn.connect();
 
         try {
-            this.Conn.executeUpdate("Update Utilizador set  Saldo = if(Saldo>= +" + value + ",Saldo-"+ value + ",Saldo) where Nome='" + user.getUsername() + "'");
+            this.conn.executeUpdate("Update Utilizador set  Saldo = if(Saldo>= +" + value + ",Saldo-"+ value + ",Saldo) where Nome='" + user.getUsername() + "'");
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
     }
 
@@ -60,17 +60,17 @@ public class UtilizadorDAOConcrete implements UtilizadorDAO {
     @Override
     public String put(Utilizador obj) {
         try{
-            this.Conn.connect();
+            this.conn.connect();
 
-            ResultSet rs = this.Conn.executeQuery("select * from Utilizador where Nome='"+obj.getUsername()+"'");
+            ResultSet rs = this.conn.executeQuery("select * from Utilizador where Nome='"+obj.getUsername()+"'");
             if(!rs.next()){
                 String cmd = "insert into Utilizador (Nome,Password,Saldo) values('" + obj.getUsername() + "','" + obj.getPassword() +"','"+ obj.getMoney() +"')";
-                this.Conn.executeUpdate(cmd);
+                this.conn.executeUpdate(cmd);
             }
         }
         catch (Exception e){e.printStackTrace();}
         finally {
-            Conn.disconnect();
+            conn.disconnect();
             putFavoritos(obj);
         }
         return obj.getUsername();
@@ -78,8 +78,8 @@ public class UtilizadorDAOConcrete implements UtilizadorDAO {
 
     private void putFavoritos(Utilizador utilizador){
         try{
-            this.Conn.connect();
-            ResultSet rs1 = this.Conn.executeQuery("select * from AtivosPreferidos inner join AtivoFinanceiro on AtivosPreferidos.AtivoFinanceiro=AtivoFinanceiro.Nome where Utilizador='"+utilizador.getUsername()+"'");
+            this.conn.connect();
+            ResultSet rs1 = this.conn.executeQuery("select * from AtivosPreferidos inner join AtivoFinanceiro on AtivosPreferidos.AtivoFinanceiro=AtivoFinanceiro.Nome where Utilizador='"+utilizador.getUsername()+"'");
             List<AtivoFinanceiro> ativoFinanceiros = new LinkedList<>();
             while(rs1.next()){
                 AtivoFinanceiro ativoFinanceiro = new AtivoFinanceiro(rs1.getString("Nome"),rs1.getDouble("ValorUnit"),rs1.getString("Type")) {};
@@ -99,7 +99,7 @@ public class UtilizadorDAOConcrete implements UtilizadorDAO {
             e.printStackTrace();
         }
         finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
     }
 
@@ -109,12 +109,12 @@ public class UtilizadorDAOConcrete implements UtilizadorDAO {
         Utilizador u = null;
         AtivoFinanceiro a;
         try{
-            this.Conn.connect();
-            ResultSet rs = this.Conn.executeQuery("select * from Utilizador where Nome='"+id+"'");
+            this.conn.connect();
+            ResultSet rs = this.conn.executeQuery("select * from Utilizador where Nome='"+id+"'");
             if (rs.next()) {
                 u = new Utilizador(rs.getString("Nome"), rs.getString("Password"), rs.getDouble("Saldo"));
 
-                ResultSet rs1 = this.Conn.executeQuery("select * from AtivosPreferidos inner join AtivoFinanceiro " +
+                ResultSet rs1 = this.conn.executeQuery("select * from AtivosPreferidos inner join AtivoFinanceiro " +
                         "on AtivosPreferidos.AtivoFinanceiro=AtivoFinanceiro.Nome " +
                         "where Utilizador='" + u.getUsername() + "'");
                 while (rs1.next()) {
@@ -128,7 +128,7 @@ public class UtilizadorDAOConcrete implements UtilizadorDAO {
         catch (Exception e) {
             e.printStackTrace();}
         finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
         return u;
     }
@@ -136,14 +136,14 @@ public class UtilizadorDAOConcrete implements UtilizadorDAO {
     @Override
     public void delete(String id) {
 
-        this.Conn.connect();
+        this.conn.connect();
 
         try {
-            this.Conn.executeUpdate("delete from Utilizador where Nome='" + id +"'");
+            this.conn.executeUpdate("delete from Utilizador where Nome='" + id +"'");
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
     }
 
@@ -156,29 +156,29 @@ public class UtilizadorDAOConcrete implements UtilizadorDAO {
 
     private void addPreferido( Utilizador u,AtivoFinanceiroFavorito a){
 
-        this.Conn.connect();
+        this.conn.connect();
         String cmd = "insert into AtivosPreferidos (AtivoFinanceiro,Utilizador, Valor) " +
                 "values('" + a.getCompany() + "','"
                 + u.getUsername() +"'," + a.getValueToNotify() + ")";
         try {
-            this.Conn.executeUpdate(cmd);
+            this.conn.executeUpdate(cmd);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
     }
 
     private void removePreferido(Utilizador u, AtivoFinanceiro a){
         try{
-            this.Conn.connect();
+            this.conn.connect();
             String cmd = "delete from AtivosPreferidos where Utilizador ='" + u.getUsername() + "' and AtivoFinanceiro='" + a.getCompany() + "'";
             System.out.println(cmd);
-            this.Conn.executeUpdate(cmd);
+            this.conn.executeUpdate(cmd);
         }
         catch (Exception e){e.printStackTrace();}
         finally {
-            Conn.disconnect();
+            conn.disconnect();
         }
     }
 

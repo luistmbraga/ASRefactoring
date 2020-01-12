@@ -90,7 +90,7 @@ public class ConsoleViewMediator extends ViewMediator {
     public synchronized void update(Observable o, Object arg) {
         if(arg instanceof List){
             List list = (List) arg;
-            if(list.size() > 0 && list.get(0) instanceof AtivoFinanceiro){
+            if(!list.isEmpty() && list.get(0) instanceof AtivoFinanceiro){
                 List<AtivoFinanceiro> ativos = (List<AtivoFinanceiro>) list;
                 for(AtivoFinanceiro a: ativos)
                     if(utilizador.getFavoritos().contains(a)){

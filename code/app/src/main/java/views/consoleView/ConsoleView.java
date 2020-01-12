@@ -145,7 +145,6 @@ public abstract class ConsoleView implements IView {
                 Pattern pattern = Pattern.compile("[ ]*:[ ]*page[ ]+([0-9]+)[ ]*");
                 Matcher matcher = pattern.matcher(input);
                 if(matcher.find()) {
-                    int pageNumber = Integer.parseInt(matcher.group(1));
                     printPage(0, list);
                 }
             }

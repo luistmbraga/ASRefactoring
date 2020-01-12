@@ -75,11 +75,7 @@ public class EESTrading extends Observable {
 		notifyObservers();
 	}
 
-	/**
-	 *
-	 * @param user
-	 * @param pass
-	 */
+
 	public Utilizador login(String user, String pass) {
 		if(utilizadorDAO.login(user, pass)){
 			Utilizador utilizador = utilizadorDAO.get(user);
@@ -88,11 +84,7 @@ public class EESTrading extends Observable {
 		return null;
 	}
 
-	/**
-	 *
-	 * @param utilizador
-	 * @param cfd
-	 */
+
 	public boolean buy(Utilizador utilizador, CFD cfd) {
 		if(cfd.getBoughtValue() <= 0) return false;
 		cfd.applyFee(fee);
@@ -105,10 +97,7 @@ public class EESTrading extends Observable {
 		return false;
 	}
 
-	/**
-	 *
-	 * @param cfd
-	 */
+
 	public void sell(CFD cfd) {
 		double valorAtual = cfd.getValue();
 		CFDVendido cfdVendido = new CFDVendido(cfd, valorAtual);
@@ -116,11 +105,7 @@ public class EESTrading extends Observable {
 		deposit(cfd.getUtilizador(), valorAtual);
 	}
 
-	/**
-	 *
-	 * @param username
-	 * @param pass
-	 */
+
 	public Utilizador regist(String username, String pass) {
 		Utilizador novo = new Utilizador(username, pass,0);
 		String id =  utilizadorDAO.put(novo);
@@ -130,11 +115,7 @@ public class EESTrading extends Observable {
 		return novo;
 	}
 
-	/**
-	 *
-	 * @param utilizador
-	 * @param value
-	 */
+
 	public void deposit(Utilizador utilizador, double value) {
 		if(value < 0) return;
 		utilizadorDAO.addMoney(utilizador, value);
@@ -142,11 +123,7 @@ public class EESTrading extends Observable {
 		notifyObservers();
 	}
 
-	/**
-	 *
-	 * @param utilizador
-	 * @param value
-	 */
+
 	public boolean withdraw(Utilizador utilizador, double value) {
 		if(utilizador.getMoney() < value || value < 0) return false;
 		utilizadorDAO.removeMoney(utilizador, value);

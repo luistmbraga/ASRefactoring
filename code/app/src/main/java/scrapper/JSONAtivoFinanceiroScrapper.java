@@ -61,16 +61,16 @@ public abstract class JSONAtivoFinanceiroScrapper implements AtivoFinanceiroScra
     }
 
     private void putAtualizacao() {
-        if(changed.size() > 0){
+        if(!changed.isEmpty()){
             trading.putAtivosFinanceiros(changed);
             changed = new LinkedList<>();
         }
     }
 
     private void addAtivos(JSONObject obj) {
-        jsonToAtivosFinanceiros(obj).forEach(ativo -> {
-            addAtivoFinanceiro(ativo);
-        });
+        jsonToAtivosFinanceiros(obj).forEach(ativo ->
+            addAtivoFinanceiro(ativo)
+        );
     }
 
     protected abstract Set<AtivoFinanceiro> jsonToAtivosFinanceiros(JSONObject obj);
