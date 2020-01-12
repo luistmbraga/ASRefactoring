@@ -8,7 +8,6 @@ import views.IView;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -110,18 +109,6 @@ public abstract class ConsoleView implements IView {
         scanner.next();
     }
 
-    protected void yesOrNoQuestion(String message, Consumer<Boolean> booleanConsumer){
-        try{
-            System.out.print(message + " [Y/N]: ");
-            if(scanner.next().toUpperCase().equals("Y")){
-                booleanConsumer.accept(true);
-            }else{
-                booleanConsumer.accept(false);
-            }
-        } catch (Exception e){
-            yesOrNoQuestion(message, booleanConsumer);
-        }
-    }
 
     protected boolean yesOrNoQuestion(String message){
         try{

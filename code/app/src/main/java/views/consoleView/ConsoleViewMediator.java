@@ -1,7 +1,6 @@
 package views.consoleView;
 
 import business.*;
-import views.IView;
 import views.ViewMediator;
 
 import java.util.List;

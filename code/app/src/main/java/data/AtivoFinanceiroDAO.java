@@ -2,7 +2,6 @@ package data;
 
 import business.AtivoFinanceiro;
 import business.CFD;
-import data.DAO;
 
 import java.util.List;
 

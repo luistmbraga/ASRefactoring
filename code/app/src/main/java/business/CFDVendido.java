@@ -24,16 +24,8 @@ public class CFDVendido extends CFD {
         return soldValue;
     }
 
-    public void setSoldValue(double soldValue) {
-        this.soldValue = soldValue;
-    }
-
     public LocalDateTime getDataVenda() {
         return dataVenda;
-    }
-
-    public void setDataVenda(LocalDateTime dataVenda) {
-        this.dataVenda = dataVenda;
     }
 
     @Override

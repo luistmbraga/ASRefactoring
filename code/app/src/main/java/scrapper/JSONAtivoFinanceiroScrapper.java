@@ -1,9 +1,7 @@
 package scrapper;
 
-import business.Acao;
 import business.AtivoFinanceiro;
 import business.EESTrading;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,10 +16,6 @@ public abstract class JSONAtivoFinanceiroScrapper implements AtivoFinanceiroScra
     private String url;
     private EESTrading trading;
 
-    // USED MORE FOR DEBUGGING PORPUSES
-    private int numberOfStocks;
-    private int numberOfStocksChanges;
-
     public JSONAtivoFinanceiroScrapper(String url){
         this.url = url;
 
@@ -33,8 +27,6 @@ public abstract class JSONAtivoFinanceiroScrapper implements AtivoFinanceiroScra
         running = false;
         changed = new LinkedList<>();
 
-        numberOfStocks = 0;
-        numberOfStocksChanges = 0;
     }
 
 
@@ -60,7 +52,6 @@ public abstract class JSONAtivoFinanceiroScrapper implements AtivoFinanceiroScra
 
     private void atualizaAtivos() throws InterruptedException {
         while(isRunning()) {
-            numberOfStocks = numberOfStocksChanges = 0;
             String json = getJson();
             JSONObject obj = new JSONObject(json);
             addAtivos(obj);
@@ -78,7 +69,6 @@ public abstract class JSONAtivoFinanceiroScrapper implements AtivoFinanceiroScra
 
     private void addAtivos(JSONObject obj) {
         jsonToAtivosFinanceiros(obj).forEach(ativo -> {
-            numberOfStocks++;
             addAtivoFinanceiro(ativo);
         });
     }
@@ -110,7 +100,6 @@ public abstract class JSONAtivoFinanceiroScrapper implements AtivoFinanceiroScra
             changed.add(ativoFinanceiro);
         } else {
             if(ativosFinanceiros.get(ativoFinanceiro.getCompany()).getValue() != ativoFinanceiro.getValue()){
-                numberOfStocksChanges++;
                 changed.add(ativoFinanceiro);
             }
             ativosFinanceiros.replace(ativoFinanceiro.getCompany(), ativoFinanceiro);
