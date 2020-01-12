@@ -32,24 +32,13 @@ public class SQLConnection implements DBConnection{
 	}
 
 	public Integer executeUpdate(String update) throws SQLException{
-		Statement st = this.conn.createStatement();
 
-		Integer r = st.executeUpdate(update);
-
-		st.close();
-
-		return r;
+		return this.conn.createStatement().executeUpdate(update);
 	}
 
 	public ResultSet executeQuery(String query) throws SQLException{
 
-		Statement st = this.conn.createStatement();
-
-		ResultSet rs = st.executeQuery(query);
-
-		st.close();
-
-		return rs;
+		return this.conn.createStatement().executeQuery(query);
 	}
 
 
