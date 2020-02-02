@@ -4,4 +4,4 @@
 
 Nota: 16 valores
 
-Notas: zip contem o código original e pasta contém código "refactored"
+Notas: zip contém o código original e pasta contém código "refactored"
